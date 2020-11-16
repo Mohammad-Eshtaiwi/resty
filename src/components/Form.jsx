@@ -1,24 +1,40 @@
 import React, { Component } from 'react';
 import '../scss/form.scss';
 export default class Form extends Component {
-    state = { url: '', methods: ['get', 'post', 'put', 'delete'], activeMethod: 'get', result: "" };
+    state = { url: '', methods: ['get', 'post', 'put', 'delete'], activeMethod: 'get' };
     handleChange = e => {
         this.setState({ url: e.target.value });
     };
     handleMethodChange = e => {
         e.preventDefault()
-        console.log(e);
         e.className = "active"
-        console.log(e.className);
-        this.setState({ activeMethod: e.target.outerText, result: "" });
+        this.setState({ activeMethod: e.target.outerText });
+        this.props.setResult("")
     };
     handleSubmit = e => {
-        const { activeMethod, url } = this.state
         e.preventDefault()
-        const result = `${activeMethod}: \n ${url}`
-        this.setState({ result })
+        const { activeMethod, url } = this.state
+        let reqHeader = new Headers();
+        reqHeader.append('Content-Type', 'text/json');
+        let initObject = {
+            method: activeMethod.toUpperCase(), Headers: reqHeader
+        };
 
+        fetch(url, initObject).then(raw => {
+            console.log(raw);
+            return raw.json()
+        }).then(result => {
+
+
+            console.log(result);
+            const results = { count: result.length, headers: result.headers, body: result }
+            result = [activeMethod, results]
+            console.log(result);
+            this.props.setResult(result)
+
+        })
     }
+
     render() {
         return (
             <form>
@@ -30,8 +46,9 @@ export default class Form extends Component {
                             name="endpoint"
                             value={this.state.url}
                             onChange={this.handleChange}
+                            data-testid="url"
                         />
-                        <button type="submit" onClick={this.handleSubmit}>GO!</button>
+                        <button type="submit" onClick={this.handleSubmit} data-testid="submit-button">GO!</button>
                     </div>
                     <div className="methods flex-center flex-gap">
                         {this.state.methods.map((method, index) => (
@@ -39,14 +56,13 @@ export default class Form extends Component {
                                 key={index}
                                 className={this.state.activeMethod === method ? 'active' : null}
                                 onClick={this.handleMethodChange}
+
                             >
                                 {method}
                             </button>
                         ))}
                     </div>
-                    <div className="result">
-                        {this.state.result}
-                    </div>
+
                 </div>
             </form>
         );
