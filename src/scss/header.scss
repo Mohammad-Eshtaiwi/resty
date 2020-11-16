@@ -1,0 +1,10 @@
+$header-bg: #363636;
+header {
+  background-color: $header-bg;
+  padding: 2em 0;
+  h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 3rem;
+  }
+}

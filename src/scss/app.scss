@@ -1,0 +1,14 @@
+.container {
+  width: 1080px;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-gap {
+  gap: 10px;
+}
