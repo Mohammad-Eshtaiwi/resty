@@ -1,0 +1,9 @@
+.history {
+  li {
+    &:hover,
+    &:focus {
+      color: lightcoral;
+      cursor: pointer;
+    }
+  }
+}
