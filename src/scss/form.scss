@@ -1,0 +1,18 @@
+form {
+  padding: 1em 0;
+  .container > div {
+    margin-top: 1em;
+  }
+  .methods {
+    button {
+      padding: 0.4em 0.8em;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      &:hover,
+      &.active {
+        background-color: #999;
+      }
+    }
+  }
+}
